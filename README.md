@@ -1,2 +1,0 @@
-# menashharooni.github.io
-website
