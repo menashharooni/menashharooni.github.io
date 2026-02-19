@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Receptionist — Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="TheBest AiReceptionist">
+          <svg class="brand-logo-svg" viewBox="0 0 520 140" role="img">
+            <rect width="520" height="140" fill="var(--bg)"></rect>
+            <g transform="translate(18,16)">
+              <ellipse
+                cx="64"
+                cy="46"
+                rx="56"
+                ry="22"
+                fill="none"
+                stroke="var(--logo-teal)"
+                stroke-width="4"
+              ></ellipse>
+              <circle cx="20" cy="46" r="6" fill="var(--logo-teal)"></circle>
+              <circle cx="108" cy="46" r="6" fill="var(--logo-teal)"></circle>
+              <circle cx="64" cy="24" r="7" fill="var(--logo-teal)"></circle>
+              <circle cx="88" cy="30" r="4" fill="var(--logo-teal)"></circle>
+              <circle
+                cx="64"
+                cy="78"
+                r="36"
+                fill="#ffffff"
+                stroke="var(--logo-navy)"
+                stroke-width="4"
+              ></circle>
+              <rect
+                x="46"
+                y="60"
+                width="36"
+                height="16"
+                rx="8"
+                fill="var(--logo-teal)"
+                opacity="0.85"
+              ></rect>
+              <circle cx="52" cy="78" r="5" fill="var(--logo-navy)"></circle>
+              <circle cx="76" cy="78" r="5" fill="var(--logo-navy)"></circle>
+              <circle
+                cx="28"
+                cy="78"
+                r="10"
+                fill="var(--logo-light)"
+                stroke="var(--logo-navy)"
+                stroke-width="4"
+              ></circle>
+              <circle
+                cx="100"
+                cy="78"
+                r="10"
+                fill="var(--logo-light)"
+                stroke="var(--logo-navy)"
+                stroke-width="4"
+              ></circle>
+              <line
+                x1="36"
+                y1="92"
+                x2="20"
+                y2="102"
+                stroke="var(--logo-navy)"
+                stroke-width="4"
+                stroke-linecap="round"
+              ></line>
+              <circle cx="16" cy="104" r="4" fill="var(--logo-teal)"></circle>
+            </g>
+            <g transform="translate(150,32)" font-family="Manrope, sans-serif">
+              <text
+                x="0"
+                y="24"
+                font-size="28"
+                font-weight="700"
+                fill="var(--logo-navy)"
+                letter-spacing="1"
+              >
+                THEBEST
+              </text>
+              <text x="0" y="78" font-size="44" font-weight="800">
+                <tspan fill="var(--logo-teal)">Ai</tspan>
+                <tspan fill="var(--logo-navy)">Receptionist</tspan>
+              </text>
+            </g>
+          </svg>
+        </a>
+        <nav class="site-nav">
+          <a href="how-it-works.html">How It Works</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="faq.html">FAQs</a>
+          <a href="contact.html">Contact</a>
+          <a href="index.html#demo" class="nav-cta">Book Demo</a>
+          <a href="login.html" class="nav-auth secondary">Login</a>
+          <a href="signup.html" class="nav-auth">Sign Up</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container">
+          <h1>Log In</h1>
+          <p class="lead">Access your plan and payment details.</p>
+        </div>
+      </section>
+
+      <section class="section auth">
+        <div class="container auth-grid single">
+          <div class="auth-card">
+            <div class="auth-header">
+              <h3>Login</h3>
+            </div>
+            <form class="plain-form" id="login-form">
+              <div class="form-grid">
+                <label class="full">
+                  Email
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="janesmith@email.com"
+                    required
+                  />
+                </label>
+                <label class="full">
+                  Password
+                  <input type="password" name="password" required />
+                </label>
+              </div>
+              <div class="form-actions">
+                <button class="primary-btn" type="submit">Log In</button>
+              </div>
+              <p class="form-error" id="login-error" aria-live="polite"></p>
+              <div class="oauth-row">
+                <button class="secondary-btn" type="button" id="google-login">
+                  <span class="google-icon" aria-hidden="true"></span>
+                  Continue with Google
+                </button>
+              </div>
+              <p class="muted link-row">
+                Need an account? <a href="signup.html">Create one</a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>Ready to stop missing calls? Book a free demo today.</p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+    <script>
+      const loginForm = document.getElementById("login-form");
+      const loginError = document.getElementById("login-error");
+      const googleLoginBtn = document.getElementById("google-login");
+      if (loginForm) {
+        loginForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const data = new FormData(loginForm);
+          loginError.textContent = "";
+          const { error } = await window.supabaseClient.auth.signInWithPassword({
+            email: data.get("email"),
+            password: data.get("password"),
+          });
+          if (!error) {
+            window.location.href = "account.html";
+            return;
+          }
+          loginError.textContent = error.message || "Incorrect email or password.";
+        });
+      }
+
+      if (googleLoginBtn) {
+        googleLoginBtn.addEventListener("click", async () => {
+          await window.supabaseClient.auth.signInWithOAuth({
+            provider: "google",
+            options: { redirectTo: `${window.location.origin}/account.html` },
+          });
+        });
+      }
+    </script>
+    <script src="app.js"></script>
+  </body>
+</html>
